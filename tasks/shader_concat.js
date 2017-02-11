@@ -74,9 +74,9 @@ module.exports = function (grunt) {
                         groups[content.directives.group][shaderType] = {};
                     }
 
-                    groups[content.directives.group][shaderType][content.directives.name] = source;
+                    groups[content.directives.group][shaderType][name] = source;
                 } else {
-                    groups[content.directives.group][content.directives.name] = source;
+                    groups[content.directives.group][name] = source;
                 }
             });
 

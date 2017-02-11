@@ -1,5 +1,4 @@
 //#shader-concat-group default
-//#shader-concat-name shader1
 
 precision mediump float;
 

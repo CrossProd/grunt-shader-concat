@@ -35,7 +35,7 @@ module.exports = function(grunt) {
         options: {
         },
         files: {
-          'tmp/default_options': ['test/fixtures/shader1.frag', 'test/fixtures/shader1.vert']
+          'tmp/default_options': ['test/**/*.frag', 'test/**/*.vert']
         }
       },
     },
