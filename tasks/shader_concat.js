@@ -22,7 +22,9 @@ module.exports = function (grunt) {
             stripComments: true,
             fragmentExtension: 'frag',
             vertexExtension: 'vert',
-            groupByShaderType: true
+            groupByShaderType: true,
+            scanAttributes: true,
+            scanUniforms: true
         });
 
         var groups = {
@@ -69,14 +71,20 @@ module.exports = function (grunt) {
 
                 var name = content.directives.name ? content.directives.name : fileDetails.name;
 
+                var shader = {
+                    "source": source,
+                    attributes: content.attributes,
+                    uniforms: content.uniforms
+                };
+
                 if (shaderType) {
                     if (!groups[content.directives.group][shaderType]) {
                         groups[content.directives.group][shaderType] = {};
                     }
 
-                    groups[content.directives.group][shaderType][name] = source;
+                    groups[content.directives.group][shaderType][name] = shader;
                 } else {
-                    groups[content.directives.group][name] = source;
+                    groups[content.directives.group][name] = shader;
                 }
             });
 
@@ -107,7 +115,9 @@ module.exports = function (grunt) {
 
         return {
             lines: sourceLines,
-            directives: directives
+            directives: directives,
+            uniforms: readUniforms(sourceLines),
+            attributes: readAttributes(sourceLines)
         };
     }
 
@@ -181,5 +191,51 @@ module.exports = function (grunt) {
         }
 
         return result;
+    }
+
+    function readAttributes(lines) {
+        var attributes = [];
+
+        var line = 0;
+        while (line++ < lines.length) {
+            if (!lines[line] || !lines[line].startsWith('attribute')) {
+                continue;
+            }
+
+            var components = lines[line].split(' ');
+
+            var type = components[1];
+            var name = components[2];
+
+            attributes.push({
+                type: components[1],
+                name: components[2]
+            });
+        }
+
+        return attributes;
+    }
+
+    function readUniforms(lines) {
+        var uniforms = [];
+
+        var line = 0;
+        while (line++ < lines.length) {
+            if (!lines[line] || !lines[line].startsWith('uniform')) {
+                continue;
+            }
+
+            var components = lines[line].split(' ');
+
+            var type = components[1];
+            var name = components[2];
+
+            uniforms.push({
+                type: components[1],
+                name: components[2]
+            });
+        }
+
+        return uniforms;
     }
 };
