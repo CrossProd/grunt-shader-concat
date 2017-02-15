@@ -204,12 +204,9 @@ module.exports = function (grunt) {
 
             var components = lines[line].split(' ');
 
-            var type = components[1];
-            var name = components[2];
-
             attributes.push({
                 type: components[1],
-                name: components[2]
+                name: components[2].replace(';', '')
             });
         }
 
@@ -227,12 +224,9 @@ module.exports = function (grunt) {
 
             var components = lines[line].split(' ');
 
-            var type = components[1];
-            var name = components[2];
-
             uniforms.push({
                 type: components[1],
-                name: components[2]
+                name: components[2].replace(';', '')
             });
         }
 
