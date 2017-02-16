@@ -88,7 +88,7 @@ module.exports = function (grunt) {
                 }
             });
 
-            var output = 'var shaders = \n';
+            var output = 'export var shaders = \n';
 
             output += JSON.stringify(groups, null, 4);
 
